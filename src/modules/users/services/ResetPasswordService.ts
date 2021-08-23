@@ -11,7 +11,7 @@ interface IRequestUser {
 }
 class ResetPasswordService {
   public async execute({ token, password }: IRequestUser): Promise<void> {
-    const userRepository = getCustomRepository(UsersRepository);
+    const usersRepository = getCustomRepository(UsersRepository);
 
     const userTokenRepository = getCustomRepository(UserTokensRepository);
 
@@ -21,7 +21,7 @@ class ResetPasswordService {
       throw new AppError('user token not valid');
     }
 
-    const user = await userRepository.findById(userToken.user_id);
+    const user = await usersRepository.findById(userToken.user_id);
 
     if (!user) {
       throw new AppError('usuario nao existe');
@@ -37,7 +37,7 @@ class ResetPasswordService {
 
     user.password = await hash(password, 8);
 
-    await userTokenRepository.save(user);
+    await usersRepository.save(user);
   }
 }
 
