@@ -12,7 +12,7 @@ export class AddOrderIdToOrdersProducts1629680336225
     await queryRunner.addColumn(
       'orders_products',
       new TableColumn({
-        name: 'product_id',
+        name: 'order_id',
         type: 'uuid',
         isNullable: true,
       }),
@@ -20,9 +20,9 @@ export class AddOrderIdToOrdersProducts1629680336225
     await queryRunner.createForeignKey(
       'orders_products',
       new TableForeignKey({
-        name: 'OrderProductsOrder',
-        columnNames: ['product_id'],
-        referencedTableName: 'products',
+        name: 'OrdersProductsOrder',
+        columnNames: ['order_id'],
+        referencedTableName: 'orders',
         referencedColumnNames: ['id'],
         onDelete: 'SET NULL',
       }),
@@ -30,7 +30,7 @@ export class AddOrderIdToOrdersProducts1629680336225
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('orders_products', 'OrderProductsOrder');
-    await queryRunner.dropColumn('orders_products', 'product_id');
+    await queryRunner.dropForeignKey('orders_products', 'OrdersProductsOrder');
+    await queryRunner.dropColumn('orders_products', 'order_id');
   }
 }
